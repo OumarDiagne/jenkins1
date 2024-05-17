@@ -15,6 +15,12 @@ pipeline{
             echo 'Executions des tests '
            }
         }
+          stage('dependencies')
+        {
+            steps{
+            echo 'correction dependances'
+           }
+        }
          stage('deployment')
         {
             steps{
