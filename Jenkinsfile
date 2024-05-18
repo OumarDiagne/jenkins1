@@ -1,14 +1,22 @@
 pipeline{
-    agent any
+    agent {
+        docker{
+            image 'node:21-alpine'
+        }
+    }
 
+    
     stages{
         stage('build')
         {
            steps{
             echo 'Build applications'
+            sh 'npm -v'
            }
            
         }
+
+    
          stage('tests')
         {
             steps{
@@ -26,6 +34,14 @@ pipeline{
             steps{
             echo 'Deploiement application'
            }
+        }
+    }
+    post{
+        always{
+           echo 'always !'
+        }
+        success{
+             echo 'success !'
         }
     }
 }
