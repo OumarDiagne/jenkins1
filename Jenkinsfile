@@ -7,7 +7,6 @@ pipeline{
         {
            steps{
             echo 'Build applications'
-            sh 'npm -v'
            }
            
         }
