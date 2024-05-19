@@ -1,18 +1,18 @@
+
 pipeline {
-    agent none
+    agent any
     stages {
         stage('Build et Test') {
-           
             steps {
                 echo "Construire et tester l'application."
             }
         }
-        stage('Déploiement séquentiel') {
-           
-            stages {
-                stage('Déploiement Dev') {
+        stage('Construction parallèle') {
+            failFast true
+            parallel {
+                stage('test integration et dependencies') {
                     steps {
-                        echo "Déploiement en environnement de développement."
+                        echo "execution tests."
                     }
                 }
                 stage('Déploiement Staging') {
@@ -22,26 +22,26 @@ pipeline {
                 }
             }
         }
-         stage('tests')
+         stage('Optimisation')
         {
             steps{
-            echo 'Executions des tests '
+            echo 'dependencies et mise a jour des packages '
            }
         }
-          stage('dependencies')
+          stage('deploiement')
         {
             steps{
-            echo 'correction dependances'
+            echo 'deploiement en production'
            }
         }
-         stage('deployment')
+         stage('montee en serveur')
         {
             steps{
-            echo 'Deploiement application'
+            echo 'Deploiement serveur supplementaire'
            }
         }
     }
-     post{
+    post{
         always{
            echo 'always !'
         }
