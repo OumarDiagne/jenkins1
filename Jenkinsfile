@@ -1,17 +1,27 @@
-pipeline{
-    agent any
-
-    
-    stages{
-        stage('build')
-        {
-           steps{
-            echo 'Build applications'
-           }
-           
+pipeline {
+    agent none
+    stages {
+        stage('Build et Test') {
+            agent { label 'build' }
+            steps {
+                echo "Construire et tester l'application."
+            }
         }
-
-    
+        stage('Déploiement séquentiel') {
+            agent { label 'deploy' }
+            stages {
+                stage('Déploiement Dev') {
+                    steps {
+                        echo "Déploiement en environnement de développement."
+                    }
+                }
+                stage('Déploiement Staging') {
+                    steps {
+                        echo "Déploiement en environnement de préproduction."
+                    }
+                }
+            }
+        }
          stage('tests')
         {
             steps{
@@ -31,7 +41,7 @@ pipeline{
            }
         }
     }
-    post{
+     post{
         always{
            echo 'always !'
         }
